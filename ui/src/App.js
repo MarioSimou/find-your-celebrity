@@ -8,7 +8,7 @@ const imageInitialState = {
 
 const axiosInstance = axios.create({
   timeout: 10000,
-  baseURL: 'https://dgyye4xp4e.execute-api.eu-west-1.amazonaws.com',
+  baseURL: 'http://localhost:4000',
 });
 
 const App = () => {
@@ -52,15 +52,15 @@ const App = () => {
       }
       setFetching(true);
 
-      const { data: dataUpload } = await axiosInstance.post(`/stage/users/image/${image.ext}`, JSON.stringify({ image: image.base64 }));
+      const { data: dataUpload } = await axiosInstance.post(`/dev/users/image/${image.ext}`, JSON.stringify({ image: image.base64 }));
 
       if (!dataUpload.success) {
         setFetching(false);
         return setError(dataUpload.message);
       }
-
+      
       const { id, ext } = dataUpload.data;
-      const { data: dataCelebrities } = await axiosInstance.get(`stage/users/image/${ext}/${id}`);
+      const { data: dataCelebrities } = await axiosInstance.get(`dev/users/image/${ext}/${id}`);
       if (!dataCelebrities.success) {
         setFetching(false);
         return setError(dataCelebrities.message);
