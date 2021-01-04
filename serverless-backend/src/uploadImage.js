@@ -25,15 +25,14 @@ export default async event => {
           return getResponse(400, 'Error: Image is missing')
       }
 
-      const imageId = event.requestContext.requestId
+      const id = event.requestContext.requestId
       const params = {
           Bucket: BUCKET_NAME,
-          Key: `${imageId}.${ext}`,
+          Key: `${id}.${ext}`,
           Body: Buffer.from(image, 'base64'),
       }
-      await s3.upload(params).promise()
-      
-      return getResponse(200, {ext, id: imageId})
+      const {Location:href} = await s3.upload(params).promise()
+      return getResponse(200, {ext, id, href})
   }catch(e){
       return getResponse(500, e.message)
   }

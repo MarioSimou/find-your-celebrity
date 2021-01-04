@@ -5,8 +5,10 @@
   "main": "handler.js",
   "scripts": {
     "start:dev": "nodemon -e .js,.mjs,.json,.yml -x ./node_modules/.bin/serverless offline start",
-    "app:deploy": "./node_modules/.bin/serverless deploy",
-    "app:drop": "./node_modules/.bin/serverless remove"
+    "app:dev:deploy": "NODE_ENV=development ./node_modules/.bin/serverless deploy",
+    "app:dev:drop": "NODE_ENV=development ./node_modules/.bin/serverless remove",
+    "app:prod:deploy": "NODE_ENV=production ./node_modules/.bin/serverless deploy",
+    "app:prod:drop": "NODE_ENV=production ./node_modules/.bin/serverless remove"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,7 @@
     "@babel/preset-env": "^7.12.11",
     "babel-loader": "^8.2.2",
     "nodemon": "^2.0.6",
+    "serverless-dotenv-plugin": "^3.1.0",
     "serverless-offline": "^6.8.0",
     "serverless-s3-local": "^0.6.7",
     "serverless-webpack": "^5.3.5",
