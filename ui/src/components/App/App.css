@@ -2,6 +2,7 @@
   background-color: #0a0b0c !important;
   height: 52px;
   line-height: 52px;
+  width: 100%;
 }
 
 #header .logo {
@@ -13,7 +14,8 @@
   padding: 20px;
   height: calc(100vh - 52px);
   max-width: 1000px;
-  margin: auto;
+  display: flex;
+  justify-content: center;
 }
 
 #content .ant-alert {
@@ -21,13 +23,20 @@
 }
 
 #content > .content-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+#content > .content-container > .left {
+  margin-right: 20px;
+}
+#content > .content-container > .right {
+  margin-left: 20px;
 }
 
 #content > .content-container > .left .ant-image {
   width: 100%;
+  min-width: 400px;
 }
 #content > .content-container > .left .ant-btn {
   margin-top: 10px;
@@ -49,9 +58,21 @@
 }
 
 @media only screen and (max-width: 700px) {
+  #content > .content-container .left {
+    margin-bottom: 40px;
+    margin-right: 0px;
+  }
+
+  #content > .content-container > .left .ant-image {
+    width: 100%;
+    min-width: 300px;
+  }
+
+  #content > .content-container .right {
+    margin-left: 0px;
+  }
+
   #content > .content-container {
-    grid-template-columns: 1fr !important;
-    grid-column-gap: 0;
-    grid-row-gap: 20px !important;
+    flex-direction: column;
   }
 }

@@ -10,4 +10,7 @@ body {
 
 #root > section.ant-layout {
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

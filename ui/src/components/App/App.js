@@ -12,6 +12,16 @@ const imageInitialState = {
   ext: null,
 };
 
+const initialCelebrityState = [
+  {
+    Id: 'A unique identifier of the celebrity',
+    Name: 'The celebrity name',
+    Urls: 'A list of links related to the celebrity',
+    Face: 'Information about your facial characteristics',
+    MatchConfidence: 'A percentage of confidence that there is a match',
+  },
+];
+
 const axiosInstance = axios.create({
   timeout: 10000,
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -20,7 +30,7 @@ const axiosInstance = axios.create({
 const App = () => {
   const [image, setImage] = React.useState(imageInitialState);
   const [fetching, setFetching] = React.useState(false);
-  const [celebrities, setCelebrities] = React.useState([]);
+  const [celebrities, setCelebrities] = React.useState(initialCelebrityState);
   const [error, setError] = React.useState({});
   const imageField = React.useRef({});
   const resetError = () => setError({});
@@ -31,12 +41,14 @@ const App = () => {
       return;
     }
 
-    setCelebrities([]);
+    setCelebrities(initialCelebrityState);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', () => {
-      const [ext] = file.name.match(/jpe?g|png|bmp/) || [];
+      console.log(file);
+      const [ext] = file.name.match(/jpeg|jpg|png|bmp/) || [];
+      console.log('EXT: ', ext);
       if (!ext) {
         return setError({ message: 'Supported images are jpg,png and bmp.' });
       }
@@ -94,13 +106,20 @@ const App = () => {
         {error.message && <Alert message="Error" description={error.message} type="error" showIcon onClose={resetError} closable />}
         <div className="content-container">
           <div className="left">
-            <Image src={image.base64 ? image.base64 : avatar} alt="user-avatar" style={{ width: '100%' }} />
+            <Image src={image.base64 ? image.base64 : avatar} alt="user-avatar" />
             <Form className="form">
               <input accept="image/*" id="image" multiple type="file" onChange={onChangeImage} style={{ display: 'none' }} ref={imageField} />
               <Button type="primary" size="large" block onClick={() => imageField.current.click()}>
                 Upload Image
               </Button>
-              <Button type="primary" size="large" onClick={onClickSubmit} disabled={!image.base64 || celebrities.length > 0} loading={fetching} block>
+              <Button
+                type="primary"
+                size="large"
+                onClick={onClickSubmit}
+                disabled={!image.base64 || celebrities.length === 0 || (image.base64 && celebrities.length > 0 && celebrities[0] !== initialCelebrityState[0])}
+                loading={fetching}
+                block
+              >
                 Find my celebrity
               </Button>
             </Form>
