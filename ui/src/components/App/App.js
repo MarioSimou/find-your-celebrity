@@ -25,6 +25,9 @@ const initialCelebrityState = [
 const axiosInstance = axios.create({
   timeout: 10000,
   baseURL: process.env.REACT_APP_API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 const App = () => {

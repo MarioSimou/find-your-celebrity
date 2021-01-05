@@ -13,16 +13,22 @@ provider:
 functions:
   getCelebrity:
     handler: ./src/index.getCelebrity
+    memorySize: 1024
+    timeout: 10
     events:
-      - httpApi:
+      - http:
           path: /users/image/{ext}/{guid}
           method: 'GET'
+          cors: true
   uploadImage:
     handler: ./src/index.uploadImage
+    memorySize: 1024
+    timeout: 10
     events:
-      - httpApi:
+      - http:
           path: /users/image/{ext}
           method: 'POST'
+          cors: true
 
 resources:
   Resources:

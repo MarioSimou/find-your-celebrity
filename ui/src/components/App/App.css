@@ -35,6 +35,7 @@
 #content > .content-container > .left .ant-image {
   width: 100%;
   min-width: 400px;
+  max-width: 600px;
 }
 #content > .content-container > .left .ant-btn {
   margin-top: 10px;
