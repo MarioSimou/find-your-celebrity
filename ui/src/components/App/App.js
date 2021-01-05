@@ -60,7 +60,7 @@ const App = () => {
         return setError({ message: 'Unable to load the image. Please try again.' });
       }
 
-      const { data: dataUpload } = await axiosInstance.post(`/dev/users/image/${image.ext}`, JSON.stringify({ image: base64 }));
+      const { data: dataUpload } = await axiosInstance.post(`/${process.env.REACT_APP_ENVIRONMENT}/users/image/${image.ext}`, JSON.stringify({ image: base64 }));
 
       if (!dataUpload.success) {
         setFetching(false);
@@ -68,7 +68,7 @@ const App = () => {
       }
 
       const { id, ext } = dataUpload.data;
-      const { data: dataCelebrities } = await axiosInstance.get(`dev/users/image/${ext}/${id}`);
+      const { data: dataCelebrities } = await axiosInstance.get(`${process.env.REACT_APP_ENVIRONMENT}/users/image/${ext}/${id}`);
       if (!dataCelebrities.success) {
         setFetching(false);
         return setError(dataCelebrities.message);
