@@ -1,9 +1,13 @@
 body {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 #root {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+}
+
+#root > section.ant-layout {
+  background-color: #fff;
 }

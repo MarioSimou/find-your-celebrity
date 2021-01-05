@@ -25,24 +25,24 @@ functions:
           method: 'POST'
 
 resources:
- Resources:
-   S3BucketMyBucket:
-     Type: AWS::S3::Bucket
-     Properties:
-       BucketName: ${env:BUCKET_NAME}
+  Resources:
+    S3BucketMyBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${env:BUCKET_NAME}
 
 custom:
   dotenv:
     required:
       file: true
   serverless-offline:
-    httpPort: 4000 
+    httpPort: 4000
   webpack:
     webpackConfig: 'webpack.config.js'
     includeModules: false
     packager: 'npm'
     excludeFiles: src/**/*.test.js
-    
+
 plugins:
   - serverless-dotenv-plugin
   - serverless-webpack
