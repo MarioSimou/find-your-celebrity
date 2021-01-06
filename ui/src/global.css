@@ -1,16 +1,3 @@
-body {
-  padding: 0;
-  margin: 0;
-}
-
-#root {
-  padding: 0;
-  margin: 0;
-}
-
-#root > section.ant-layout {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.celebrity-json > pre {
+  background-color: transparent;
 }

@@ -1,11 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { Layout, Image, Form, Button, Alert, Typography } from 'antd';
-import './App.css';
 import logo from '../../logo.png';
 import avatar from '../../avatar.webp';
 import JSONPretty from 'react-json-pretty';
 import 'react-json-pretty/themes/monikai.css';
+import { Image, Button, Box, Text, LinkBox, SimpleGrid, Stack, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from '@chakra-ui/react';
 
 const imageInitialState = {
   base64: null,
@@ -49,9 +48,7 @@ const App = () => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', () => {
-      console.log(file);
       const [ext] = file.name.match(/jpeg|jpg|png|bmp/) || [];
-      console.log('EXT: ', ext);
       if (!ext) {
         return setError({ message: 'Supported images are jpg,png and bmp.' });
       }
@@ -98,45 +95,59 @@ const App = () => {
     }
   };
 
+  console.log('ERROR: ', error);
   return (
-    <Layout>
-      <Layout.Header id="header">
-        <a href="https://blog.mariossimou.dev/" target="_blank" rel="noreferrer" aria-label="logo">
-          <img src={logo} title="logo" alt="logo" className="logo" />
-        </a>
-      </Layout.Header>
-      <Layout.Content id="content">
-        {error.message && <Alert message="Error" description={error.message} type="error" showIcon onClose={resetError} closable />}
-        <div className="content-container">
-          <div className="left">
-            <Image src={image.base64 ? image.base64 : avatar} alt="user-avatar" />
-            <Form className="form">
+    <Box textAlign="start" fontSize="xl" w="100%" background="#323232" minHeight="100vh">
+      <Box id="header" bg="#0a0b0c" as="nav">
+        <LinkBox href="https://blog.mariossimou.dev/" rel="noreferrer" aria-label="logo" padding="8px 0 8px 16px">
+          <Image src={logo} w={10} h={10} title="logo" alt="logo" />
+        </LinkBox>
+      </Box>
+      {error.message && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle mr={2}>Error</AlertTitle>
+          <AlertDescription>{error.message}</AlertDescription>
+          <CloseButton position="absolute" right="8px" top="8px" onClick={resetError} />
+        </Alert>
+      )}
+      <Box textAlign="center" padding="20px">
+        <SimpleGrid templateColumns="1fr 1f" autoFlow={{ base: 'row', lg: 'column' }} spacing={8}>
+          <Box textAlign="right" as="div">
+            <Image src={image.base64 ? image.base64 : avatar} alt="user-avatar" w="100%" maxW="calc(100vw - 40px)" />
+            <Box as="form" display="flex" flexDirection="column">
               <input accept="image/*" id="image" multiple type="file" onChange={onChangeImage} style={{ display: 'none' }} ref={imageField} />
-              <Button type="primary" size="large" block onClick={() => imageField.current.click()}>
-                Upload Image
-              </Button>
-              <Button
-                type="primary"
-                size="large"
-                onClick={onClickSubmit}
-                disabled={!image.base64 || celebrities.length === 0 || (image.base64 && celebrities.length > 0 && celebrities[0] !== initialCelebrityState[0])}
-                loading={fetching}
-                block
-              >
-                Find my celebrity
-              </Button>
-            </Form>
-          </div>
-          <div className="right">
-            {celebrities.length === 0 && image.id && <Typography.Text>No match</Typography.Text>}
+              <Stack direction="column" marginTop={2} maxW="calc(100vw - 40px)">
+                <Button variant="outline" colorScheme="yellow" onClick={() => imageField.current.click()}>
+                  Upload Image
+                </Button>
+                <Button
+                  margin="0"
+                  variant="outline"
+                  colorScheme="yellow"
+                  onClick={onClickSubmit}
+                  isDisabled={!image.base64 || celebrities.length === 0 || (image.base64 && celebrities.length > 0 && celebrities[0] !== initialCelebrityState[0])}
+                  isLoading={fetching}
+                >
+                  Find my celebrity
+                </Button>
+              </Stack>
+            </Box>
+          </Box>
+          <Box as="div" textAlign="left">
+            {celebrities.length === 0 && image.id && <Text>No match</Text>}
             {celebrities.length > 0 &&
               celebrities.map((celebrity) => {
-                return <JSONPretty key={celebrity.Name} className="celebrity-json" onJSONPrettyError={(e) => setError({ message: e.message })} data={celebrity}></JSONPretty>;
+                return (
+                  <Box textAlign="start" maxW="calc(100vw - 40px)" overflow="auto">
+                    <JSONPretty key={celebrity.Name} className="celebrity-json" onJSONPrettyError={(e) => setError({ message: e.message })} data={celebrity}></JSONPretty>
+                  </Box>
+                );
               })}
-          </div>
-        </div>
-      </Layout.Content>
-    </Layout>
+          </Box>
+        </SimpleGrid>
+      </Box>
+    </Box>
   );
 };
 

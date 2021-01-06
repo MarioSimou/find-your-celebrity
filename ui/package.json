@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^4.10.0",
+    "@chakra-ui/react": "^1.1.1",
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
     "axios": "^0.21.1",
+    "framer-motion": "^3.1.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-json-pretty": "^2.2.0",
