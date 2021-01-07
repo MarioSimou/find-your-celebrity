@@ -135,7 +135,11 @@ const App = () => {
             </Box>
           </Box>
           <Box as="div" textAlign="left">
-            {celebrities.length === 0 && image.id && <Text>No match</Text>}
+            {celebrities.length === 0 && image.id && (
+              <Box textAlign="start" as="div" maxW="calc(100vw - 40px)">
+                <Text color="#fd971f">Unfortunately we couldn't find a match. Please try again with a different image.</Text>
+              </Box>
+            )}
             {celebrities.length > 0 &&
               celebrities.map((celebrity) => {
                 return (
